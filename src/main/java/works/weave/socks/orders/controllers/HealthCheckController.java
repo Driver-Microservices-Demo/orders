@@ -18,6 +18,7 @@ public class HealthCheckController {
 
     private static final String STATUS_OK = "OK";
     private static final String STATUS_ERROR = "err";
+    private static final String HEALTH_KEY = "health";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -43,7 +44,7 @@ public class HealthCheckController {
       healthChecks.add(app);
       healthChecks.add(database);
 
-      map.put("health", healthChecks);
+      map.put(HEALTH_KEY, healthChecks);
       return map;
     }
 }
