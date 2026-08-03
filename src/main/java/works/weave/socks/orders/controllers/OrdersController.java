@@ -32,6 +32,9 @@ import java.util.regex.Pattern;
 
 @RepositoryRestController
 public class OrdersController {
+    private static final Pattern ID_PATTERN = Pattern.compile("[\\w-]+$");
+    private static final float SHIPPING_COST = 4.99F;
+
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     @Autowired
@@ -126,8 +129,7 @@ public class OrdersController {
     }
 
     private String parseId(String href) {
-        Pattern idPattern = Pattern.compile("[\\w-]+$");
-        Matcher matcher = idPattern.matcher(href);
+        Matcher matcher = ID_PATTERN.matcher(href);
         if (!matcher.find()) {
             throw new IllegalStateException("Could not parse user ID from: " + href);
         }
@@ -153,9 +155,8 @@ public class OrdersController {
 
     private float calculateTotal(List<Item> items) {
         float amount = 0F;
-        float shipping = 4.99F;
         amount += items.stream().mapToDouble(i -> i.getQuantity() * i.getUnitPrice()).sum();
-        amount += shipping;
+        amount += SHIPPING_COST;
         return amount;
     }
 

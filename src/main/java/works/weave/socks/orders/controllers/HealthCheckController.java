@@ -16,6 +16,10 @@ import java.util.Map;
 @RestController
 public class HealthCheckController {
 
+    private static final String STATUS_OK = "OK";
+    private static final String STATUS_ERROR = "err";
+    private static final String HEALTH_KEY = "health";
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -24,23 +28,23 @@ public class HealthCheckController {
     public
     @ResponseBody
     Map<String, List<HealthCheck>> getHealth() {
-      Map<String, List<HealthCheck>> map = new HashMap<String, List<HealthCheck>>();
-      List<HealthCheck> healthChecks = new ArrayList<HealthCheck>();
+      Map<String, List<HealthCheck>> map = new HashMap<>();
+      List<HealthCheck> healthChecks = new ArrayList<>();
       Date dateNow = Calendar.getInstance().getTime();
 
-      HealthCheck app = new HealthCheck("orders", "OK", dateNow);
-      HealthCheck database = new HealthCheck("orders-db", "OK", dateNow);
+      HealthCheck app = new HealthCheck("orders", STATUS_OK, dateNow);
+      HealthCheck database = new HealthCheck("orders-db", STATUS_OK, dateNow);
 
       try {
          mongoTemplate.executeCommand("{ buildInfo: 1 }");
       } catch (Exception e) {
-         database.setStatus("err");
+         database.setStatus(STATUS_ERROR);
       }
 
       healthChecks.add(app);
       healthChecks.add(database);
 
-      map.put("health", healthChecks);
+      map.put(HEALTH_KEY, healthChecks);
       return map;
     }
 }
