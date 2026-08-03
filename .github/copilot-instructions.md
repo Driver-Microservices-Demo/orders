@@ -91,7 +91,6 @@ is unusable, say so **explicitly in the review summary** and state that the
 review was completed without Driver context. Do not silently fall back to a
 diff-only review.
 
-If tool calls are rejected as writes, `COPILOT_MCP_READ_ONLY_MODE` may be
-enabled; `request_task_context` dispatches server-side work and can be blocked
-by it. Report that rather than skipping the step quietly.
+This applies to rejected or blocked tool calls too — report the failure rather
+than skipping the step quietly.
 
