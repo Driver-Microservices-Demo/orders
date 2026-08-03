@@ -72,12 +72,6 @@ connectivity exists for that node. Respect the `completeness` note: unlisted
 edges are **unknown, not absent**. Keep looking rather than concluding nothing is
 affected.
 
-When the diff modifies a specific function, class, or method, also call
-`change_impact(codebase_name="orders", symbol="<name>", mode="all")` to get
-dependents, the transitive impact set, and which tests to run. Use
-`mode="tests"` for the fast which-tests answer. A large `dependents.total` is
-itself the signal that a change is wide.
-
 ### 5. Only then complete the review
 
 Every substantive comment must be consistent with the Driver context you
